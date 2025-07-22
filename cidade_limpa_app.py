@@ -1,34 +1,28 @@
+import streamlit as st
 import streamlit_authenticator as stauth
 
-# Usuários e senhas
-users = ['user1', 'user2']
-names = ['Usuário 1', 'Usuário 2']
-passwords = ['123', 'abc']
+# --- USUÁRIOS E SENHAS ---
+usernames = ['usuario1']
+names = ['Usuário Teste']
+passwords = ['123']  # senhas simples só para teste
 
-# Criação dos hashes
+# Criação do hash das senhas
 hashed_passwords = stauth.Hasher(passwords).generate()
 
+# Criando o autenticador
 authenticator = stauth.Authenticate(
-    names, users, hashed_passwords,
-    'cidade_limpa_cookie', 'abcdef', cookie_expiry_days=30
+    names,
+    usernames,
+    hashed_passwords,
+    'cidade_limpa',  # nome da aplicação
+    'abcdef',        # chave secreta (pode ser qualquer string)
+    cookie_expiry_days=30
 )
 
-# Tela de login
+# Login
 name, authentication_status, username = authenticator.login('Login', 'main')
 
-if authentication_status == False:
-    st.error('Usuário ou senha incorretos.')
-
-if authentication_status == None:
-    st.warning('Por favor, faça login.')
-
 if authentication_status:
-    authenticator.logout('Sair', 'sidebar')
-    st.sidebar.success(f'Bem-vindo, {name} 👋')
-
-    # DAQUI PRA BAIXO: seu app continua normalmente
-
-
 
 
 import streamlit as st
