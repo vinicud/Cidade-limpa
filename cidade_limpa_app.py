@@ -1,3 +1,36 @@
+import streamlit_authenticator as stauth
+
+# Usuários e senhas
+users = ['user1', 'user2']
+names = ['Usuário 1', 'Usuário 2']
+passwords = ['123', 'abc']
+
+# Criação dos hashes
+hashed_passwords = stauth.Hasher(passwords).generate()
+
+authenticator = stauth.Authenticate(
+    names, users, hashed_passwords,
+    'cidade_limpa_cookie', 'abcdef', cookie_expiry_days=30
+)
+
+# Tela de login
+name, authentication_status, username = authenticator.login('Login', 'main')
+
+if authentication_status == False:
+    st.error('Usuário ou senha incorretos.')
+
+if authentication_status == None:
+    st.warning('Por favor, faça login.')
+
+if authentication_status:
+    authenticator.logout('Sair', 'sidebar')
+    st.sidebar.success(f'Bem-vindo, {name} 👋')
+
+    # DAQUI PRA BAIXO: seu app continua normalmente
+
+
+
+
 import streamlit as st
 import pandas as pd
 import folium
